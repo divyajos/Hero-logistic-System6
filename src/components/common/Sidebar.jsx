@@ -176,13 +176,24 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobile
       <div>
         {user.role === 'Company Admin' || user.role === 'Dispatcher' ? (
           <div className="flex flex-col items-center justify-center pt-8 pb-6 border-b border-[#1F1F1F]">
-            <div className="text-2xl font-black text-[#FFD400] tracking-wide select-none">
-              Hero
+            <div className="flex justify-center select-none">
+              <img src={heroLogo} alt="Hero Logistics" className="h-[80px] w-auto object-contain" />
             </div>
-            <div className="text-[9px] font-black text-[#FFD400]/80 tracking-widest uppercase mt-1 flex items-center gap-1 select-none">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] inline-block animate-pulse"></span>
-              ADMIN PORTAL
-            </div>
+            {user.role === 'Dispatcher' ? (
+              <div className="flex flex-col items-center w-full">
+                <div className="flex items-center gap-1.5 mt-3 mb-1">
+                  <Zap className="h-3.5 w-3.5 text-[#F97316]" strokeWidth={2.5} />
+                  <span className="text-[#F97316] text-xs font-black tracking-[0.2em] select-none uppercase">
+                    DISPATCHER
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="text-[9px] font-black text-[#FFD400]/80 tracking-widest uppercase mt-1 flex items-center gap-1 select-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] inline-block animate-pulse"></span>
+                ADMIN PORTAL
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex flex-col p-4 border-b border-[#1F1F1F]">
@@ -279,44 +290,33 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobile
 
       {/* Bottom Profile Details or Sign Out */}
       <div className="border-t border-[#1F1F1F] p-3.5 bg-[#0A0A0A] flex flex-col gap-2">
-        {user.role === 'Dispatcher' || user.role === 'Company Admin' ? (
-          <button
-            onClick={logout}
-            className="w-full flex items-center p-2.5 rounded-xl text-xs font-black text-red-500 hover:bg-red-500/10 cursor-pointer transition-all uppercase tracking-wider gap-2 text-left"
-            title="Sign Out"
-          >
-            <span className="text-base leading-none">←</span>
-            {!collapsed && <span>SIGN OUT</span>}
-          </button>
-        ) : (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center overflow-hidden gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/25 flex items-center justify-center font-bold text-sm text-[#FFD400] flex-shrink-0">
-                {user.name.charAt(0)}
-              </div>
-              {!collapsed && (
-                <div className="text-left overflow-hidden animate-fade-in">
-                  <h5 className="text-xs font-extrabold text-white truncate">
-                    {user.role === 'Super Admin' ? 'Role: Super Admin' : user.name}
-                  </h5>
-                  <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mt-0.5">
-                    {user.role === 'Super Admin' ? 'Platform Owner' : user.role}
-                  </span>
-                </div>
-              )}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center overflow-hidden gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/25 flex items-center justify-center font-bold text-sm text-[#FFD400] flex-shrink-0">
+              {user.role === 'Dispatcher' && user.name === 'Admin' ? 'S' : (user.role === 'Driver' && user.name === 'Admin' ? 'N' : user.name.charAt(0))}
             </div>
-            
             {!collapsed && (
-              <button 
-                onClick={logout}
-                className="p-2 hover:bg-red-500/10 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                title="Log Out"
-              >
-                <LogOut className="h-4.5 w-4.5" />
-              </button>
+              <div className="text-left overflow-hidden animate-fade-in">
+                <h5 className="text-xs font-extrabold text-blue-600 truncate">
+                  {user.role === 'Super Admin' ? 'Role: Super Admin' : (user.name === 'Admin' && user.role === 'Dispatcher' ? 'Sarah Mitchell' : (user.name === 'Admin' && user.role === 'Driver' ? 'Noah Williams' : user.name))}
+                </h5>
+                <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mt-0.5">
+                  {user.role === 'Super Admin' ? 'Platform Owner' : user.role}
+                </span>
+              </div>
             )}
           </div>
-        )}
+          
+          {!collapsed && (
+            <button 
+              onClick={logout}
+              className="p-2 hover:bg-white/10 text-gray-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+              title="Log Out"
+            >
+              <LogOut className="h-4.5 w-4.5" />
+            </button>
+          )}
+        </div>
       </div>
 
     </aside>

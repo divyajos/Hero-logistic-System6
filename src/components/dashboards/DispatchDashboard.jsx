@@ -29,7 +29,7 @@ import { BarChartWidget } from '../common/DashboardCharts';
 import {
   Layers, Navigation, Truck, ShieldAlert, Plus, Check, Clock, User, Phone, Search,
   MapPin, MessageSquare, ArrowRight, ArrowLeft, Send, Calendar as CalendarIcon, FileText, Activity, Trash2, Filter, Info, Eye, Package, Lock, Sliders,
-  DollarSign, Globe, Users, Download, Star, Wrench, Shield, Key, AlertTriangle, QrCode, Cpu, Edit, Trash, ChevronDown, ChevronLeft, Inbox, X, Upload, Building, Camera, CheckCircle2, Bell, LifeBuoy, Zap
+  DollarSign, Globe, Users, Download, Star, Wrench, Shield, Key, AlertTriangle, QrCode, Cpu, Edit, Trash, ChevronDown, ChevronLeft, Inbox, X, Upload, Building, Camera, CheckCircle2, Bell, LifeBuoy, Zap, ArrowDownUp, List, LayoutGrid
 } from 'lucide-react';
 
 const loadThroughputData = [
@@ -414,10 +414,10 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
 
   // 4. Roster Control states
   const [rosterDrivers, setRosterDrivers] = useState([
-    { id: 'DRV-134', name: 'Oliver Brown', status: 'In Break', shift: 'Night Shift (22:00 - 10:00)', score: '★ 4 / 5.0', assignment: 'No Active Job', compliance: ['VALID'], phone: '+61 414 000 004', tier: 'JUNIOR' },
-    { id: 'DRV-145', name: 'Lucas Jones', status: 'Off Duty', shift: 'Day Shift', score: '★ 4.9 / 5.0', assignment: 'No Active Job', compliance: ['VALID', 'DG'], phone: '+61 415 000 005', tier: 'SENIOR' },
-    { id: 'DRV-105', name: 'Liam Smith', status: 'On Duty', shift: 'Night Shift (18:00 - 06:00)', score: '★ 4.5 / 5.0', assignment: '📍 SHP-20482', compliance: ['VALID', 'WHITE CARD'], phone: '+61 412 000 002', tier: 'REGULAR' },
-    { id: 'DRV-102', name: 'Jack Taylor', status: 'On Duty', shift: 'Day Shift (06:00 - 18:00)', score: '★ 4.8 / 5.0', assignment: '📍 SHP-20481', compliance: ['VALID', 'DG', 'MSIC', 'WHITE CARD'], phone: '+61 411 000 001', tier: 'SENIOR' }
+    { id: 'DRV-134', name: 'Oliver Brown', status: 'In Break', shift: 'Night Shift (22:00 - 10:00)', score: '★ 4 / 5.0', assignment: 'No Active Job', compliance: ['VALID'], phone: '+61 414 000 004', tier: 'JUNIOR', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=300&auto=format&fit=crop' },
+    { id: 'DRV-145', name: 'Lucas Jones', status: 'Off Duty', shift: 'Day Shift', score: '★ 4.9 / 5.0', assignment: 'No Active Job', compliance: ['VALID', 'DG'], phone: '+61 415 000 005', tier: 'SENIOR', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop' },
+    { id: 'DRV-105', name: 'Liam Smith', status: 'On Duty', shift: 'Night Shift (18:00 - 06:00)', score: '★ 4.5 / 5.0', assignment: '📍 SHP-20482', compliance: ['VALID', 'WHITE CARD'], phone: '+61 412 000 002', tier: 'REGULAR', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop' },
+    { id: 'DRV-102', name: 'Jack Taylor', status: 'On Duty', shift: 'Day Shift (06:00 - 18:00)', score: '★ 4.8 / 5.0', assignment: '📍 SHP-20481', compliance: ['VALID', 'DG', 'MSIC', 'WHITE CARD'], phone: '+61 411 000 001', tier: 'SENIOR', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop' }
   ]);
   const [rosterSearch, setRosterSearch] = useState('');
   const [rosterFilter, setRosterFilter] = useState('All');
@@ -516,11 +516,73 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
   // 6. Asset Inventory states
   const [inventorySearch, setInventorySearch] = useState('');
   const [inventoryFilter, setInventoryFilter] = useState('ALL');
+  const [inventoryView, setInventoryView] = useState('list');
   const [inventoryAssets, setInventoryAssets] = useState([
-    { id: 'INV-7721', desc: 'Flatbed Trailer Tie Downs', depot: 'Sydney Central Depot', qty: '124 units', status: 'IN STOCK' },
-    { id: 'INV-7722', desc: 'Heavy Duty Ratchet Straps', depot: 'Melbourne Depot', qty: '82 units', status: 'IN STOCK' },
-    { id: 'INV-7723', desc: 'Dangerous Goods Hazmat Kits', depot: 'Brisbane Port Branch', qty: '15 units', status: 'LOW STOCK' },
-    { id: 'INV-7724', desc: 'Standard Timber Pallets 1.2m', depot: 'Sydney Central Depot', qty: '450 units', status: 'IN STOCK' }
+    {
+      id: 'INV-001',
+      name: '2022 Toyota Camry',
+      plate: 'ABC 123',
+      vin: '1HGCM82633A004352',
+      type: 'Sedan',
+      specs: 'White · Sedan · 1,450 kg',
+      targetOffice: 'Brisbane QLD',
+      targetCompany: 'AutoDeal Pty Ltd',
+      status: 'IN DEPOT',
+      task: 'LD-2041',
+      image: '/assets/toyota_camry.png'
+    },
+    {
+      id: 'INV-002',
+      name: '2023 Honda CR-V',
+      plate: 'XYZ 987',
+      vin: '2T1BURHE0JC034820',
+      type: 'SUV',
+      specs: 'Black · SUV · 1,720 kg',
+      targetOffice: 'Melbourne VIC',
+      targetCompany: 'Smith Motors',
+      status: 'IN TRANSIT',
+      task: 'LD-2039',
+      image: '/assets/honda_crv.png'
+    },
+    {
+      id: 'INV-003',
+      name: '2024 Tesla Model S',
+      plate: 'EV 0001',
+      vin: '5YJSA1DG9PFJ12345',
+      type: 'Sedan',
+      specs: 'Red · Sedan · 2,162 kg',
+      targetOffice: 'Sydney NSW',
+      targetCompany: 'EV Fleet Co',
+      status: 'DELIVERED',
+      task: 'LD-2031',
+      image: 'https://images.unsplash.com/photo-1536700503339-1e4b06520771?auto=format&fit=crop&w=400&q=80'
+    },
+    {
+      id: 'INV-004',
+      name: '2021 Ford Ranger',
+      plate: 'TRK 444',
+      vin: '3FADP4BJ7FM123456',
+      type: 'Ute',
+      specs: 'Silver · Ute · 2,030 kg',
+      targetOffice: 'Perth WA',
+      targetCompany: 'WA Motors',
+      status: 'AWAITING LOAD',
+      task: 'Available',
+      image: 'https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=400&q=80'
+    },
+    {
+      id: 'INV-005',
+      name: '2022 Nissan X-Trail',
+      plate: 'NIS 202',
+      vin: '1N4AL3AP7JC234567',
+      type: 'SUV',
+      specs: 'Blue · SUV · 1,680 kg',
+      targetOffice: 'Adelaide SA',
+      targetCompany: 'SA Auto Group',
+      status: 'IN DEPOT',
+      task: 'LD-2042',
+      image: '/assets/nissan_xtrail.png'
+    }
   ]);
 
   // 7. System Settings sub-tabs
@@ -5402,101 +5464,102 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
               <div className="space-y-6 animate-fade-in text-left">
 
                 {/* Page header */}
-                <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 border-b border-slate-100 pb-4">
+                <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 pb-6">
                   <div className="flex items-center gap-4 text-left">
-                    <div className="p-3 bg-slate-50 border border-slate-205 rounded-2xl text-slate-805">
-                      <span className="text-xl">👥</span>
+                    <div className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-800 shadow-sm flex items-center justify-center">
+                      <Users className="h-5 w-5 text-slate-900" />
                     </div>
                     <div>
-                      <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-sans">Roster Control</h1>
-                      <p className="text-xs font-semibold text-slate-455 mt-1 block">Active Fleet Operators and Live Status Monitoring</p>
+                      <h1 className="text-2xl font-bold text-slate-900 tracking-tight font-sans">Roster Control</h1>
+                      <p className="text-sm text-slate-500 mt-0.5 block">Active Fleet Operators and Live Status Monitoring</p>
                     </div>
                   </div>
 
                   {!isAddingDriver && (
-                    <div className="flex gap-2">
+                    <div className="flex gap-3">
                       <button
                         type="button"
                         onClick={() => triggerToast('Exporting roster CSV...')}
-                        className="px-5 py-2.5 bg-white border border-slate-205 hover:bg-slate-50 text-slate-900 font-black text-xs uppercase tracking-wider rounded-xl cursor-pointer transition-colors shadow-xs"
+                        className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm rounded-xl cursor-pointer transition-colors shadow-sm"
                       >
                         Export CSV
                       </button>
                       <button
                         type="button"
                         onClick={() => setIsAddingDriver(true)}
-                        className="px-5 py-2.5 bg-[#FFB200] hover:bg-[#E68A00] text-black font-black text-xs uppercase tracking-wider rounded-xl cursor-pointer shadow-md transition-all"
+                        className="px-4 py-2 bg-[#FFB200] hover:bg-[#E68A00] text-black font-semibold text-sm rounded-xl cursor-pointer shadow-sm transition-all flex items-center gap-2"
                       >
-                        + Add Driver
+                        <Plus className="h-4 w-4" /> Add Driver
                       </button>
                     </div>
                   )}
                 </div>
 
                 {/* Filters, Search and Sort row */}
-                <div className="flex flex-col xl:flex-row justify-between items-stretch xl:items-center gap-4">
-
-                  {/* Scrollable Tab bar matching the image */}
-                  <div className="flex items-center gap-2">
-                    <button type="button" className="text-slate-400 font-extrabold hover:text-slate-800 text-xs px-1" onClick={() => triggerToast('Scroll left')}>◀</button>
-                    <div className="flex gap-1 bg-slate-100/80 p-1 rounded-xl overflow-x-auto scrollbar-none max-w-sm sm:max-w-md">
-                      {['All', 'On Duty', 'In Break', 'Delay Alert', 'Off Duty'].map(tabName => (
-                        <button
-                          key={tabName}
-                          type="button"
-                          onClick={() => setRosterFilter(tabName)}
-                          className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer whitespace-nowrap ${rosterFilter === tabName
-                            ? 'bg-white text-slate-900 shadow-xs'
-                            : 'text-slate-550 hover:text-slate-900'
-                            }`}
-                        >
-                          {tabName}
-                        </button>
-                      ))}
-                    </div>
-                    <button type="button" className="text-slate-400 font-extrabold hover:text-slate-800 text-xs px-1" onClick={() => triggerToast('Scroll right')}>▶</button>
+                <div className="flex flex-col xl:flex-row justify-between items-stretch xl:items-center gap-4 pb-4">
+                  {/* Tab bar matching the image */}
+                  <div className="flex items-center gap-1 bg-slate-50/50 p-1.5 rounded-xl border border-slate-100">
+                    {['All', 'On Duty', 'In Break', 'Delay Alert', 'Off Duty'].map(tabName => (
+                      <button
+                        key={tabName}
+                        type="button"
+                        onClick={() => setRosterFilter(tabName)}
+                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer whitespace-nowrap ${rosterFilter === tabName
+                          ? 'bg-white text-slate-900 shadow-sm border border-slate-200'
+                          : 'text-slate-500 hover:text-slate-900 border border-transparent'
+                          }`}
+                      >
+                        {tabName}
+                      </button>
+                    ))}
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <div className="relative flex-grow sm:w-64">
-                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">🔍</span>
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+                        <Search className="h-4 w-4" />
+                      </span>
                       <input
                         type="text"
                         placeholder="Search by ID or Name..."
                         value={rosterSearch}
                         onChange={(e) => setRosterSearch(e.target.value)}
-                        className="w-full pl-9 pr-4 py-2.5 border border-slate-205 focus:border-[#FFB200] text-xs font-bold rounded-xl focus:outline-none bg-white transition-all placeholder-slate-400 shadow-xs"
+                        className="w-full pl-9 pr-4 py-2.5 border border-slate-200 focus:border-[#FFB200] text-sm font-medium rounded-xl focus:outline-none bg-white transition-all placeholder-slate-400 shadow-sm"
                       />
                     </div>
 
                     <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+                        <ArrowDownUp className="h-4 w-4" />
+                      </span>
                       <select
                         value={rosterSort}
                         onChange={(e) => setRosterSort(e.target.value)}
-                        className="appearance-none bg-white border border-slate-205 pl-4 pr-10 py-2.5 rounded-xl text-xs font-black focus:outline-none focus:border-[#FFB200] cursor-pointer text-slate-700 shadow-xs"
+                        className="appearance-none bg-white border border-slate-200 pl-9 pr-10 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:border-[#FFB200] cursor-pointer text-slate-700 shadow-sm"
                       >
                         <option value="name">Sort by Name</option>
                         <option value="score">Sort by Rating</option>
                       </select>
-                      <span className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-455 pointer-events-none text-[10px]">▼</span>
+                      <span className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 pointer-events-none">
+                        <ChevronDown className="h-4 w-4" />
+                      </span>
                     </div>
                   </div>
-
                 </div>
 
                 {/* Roster Table Card Layout */}
-                <div className="bg-white border border-slate-105 rounded-3xl p-6 shadow-sm overflow-x-auto">
-                  <table className="w-full text-left border-collapse text-xs" style={{minWidth:'700px'}}>
+                <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-sm" style={{ minWidth: '800px' }}>
                     <thead>
-                      <tr className="border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">
-                        <th className="pb-4 font-black">DRIVER DETAILS</th>
-                        <th className="pb-4 font-black">CURRENT SHIFT</th>
-                        <th className="pb-4 font-black">STATUS & ASSIGNMENT</th>
-                        <th className="pb-4 font-black">COMPLIANCE</th>
-                        <th className="pb-4 font-black text-right pr-4">ACTIONS</th>
+                      <tr className="border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider font-sans bg-white">
+                        <th className="py-4 px-6">DRIVER DETAILS</th>
+                        <th className="py-4 px-6">CURRENT SHIFT</th>
+                        <th className="py-4 px-6">STATUS & ASSIGNMENT</th>
+                        <th className="py-4 px-6">COMPLIANCE</th>
+                        <th className="py-4 px-6 text-right">ACTIONS</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-slate-100 bg-white">
                       {rosterDrivers
                         .filter(d => {
                           if (rosterSearch) {
@@ -5504,37 +5567,35 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
                             if (!d.name.toLowerCase().includes(q) && !d.id.toLowerCase().includes(q)) return false;
                           }
                           if (rosterFilter !== 'All') {
-                            if (rosterFilter === 'Delay Alert') {
-                              // If delay alerts tab, let's mock no active delayed drivers, or just return none
-                              return false;
-                            }
+                            if (rosterFilter === 'Delay Alert') return false;
                             if (d.status.toUpperCase() !== rosterFilter.toUpperCase()) return false;
                           }
                           return true;
                         })
                         .sort((a, b) => {
-                          if (rosterSort === 'score') {
-                            return b.score.localeCompare(a.score);
-                          }
+                          if (rosterSort === 'score') return b.score.localeCompare(a.score);
                           return a.name.localeCompare(b.name);
                         })
                         .map(driver => (
-                          <tr key={driver.id} className="align-middle hover:bg-[#FFFBF0] transition-colors cursor-pointer group" onClick={() => setSelectedRosterDriver(driver)}>
-
+                          <tr key={driver.id} className="align-middle hover:bg-slate-50/50 transition-colors cursor-pointer group" onClick={() => setSelectedRosterDriver(driver)}>
                             {/* Driver Details */}
-                            <td className="py-5">
-                              <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-slate-100 border border-slate-205 flex items-center justify-center font-black text-xs text-slate-700 uppercase shrink-0 shadow-xs font-mono">
-                                  {driver.name.split(' ').map(n => n[0]).join('')}
-                                </div>
+                            <td className="py-4 px-6">
+                              <div className="flex items-center gap-4">
+                                {driver.avatar ? (
+                                  <img src={driver.avatar} className="w-12 h-12 rounded-xl object-cover shrink-0 shadow-sm border border-slate-200" alt="" />
+                                ) : (
+                                  <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-sm text-slate-700 uppercase shrink-0">
+                                    {driver.name.split(' ').map(n => n[0]).join('')}
+                                  </div>
+                                )}
                                 <div className="text-left space-y-1">
                                   <div className="flex items-center gap-2">
-                                    <strong className="text-slate-900 font-black text-sm block leading-none">{driver.name}</strong>
-                                    <span className="px-1.5 py-0.5 bg-slate-100 text-slate-450 font-black rounded text-[9px] uppercase tracking-wider leading-none shrink-0">
+                                    <strong className="text-slate-900 font-bold text-base block leading-none">{driver.name}</strong>
+                                    <span className="px-2 py-0.5 bg-slate-100 text-slate-500 font-bold rounded text-[10px] uppercase tracking-wider leading-none shrink-0 border border-slate-200">
                                       {driver.tier}
                                     </span>
                                   </div>
-                                  <span className="text-[10px] text-slate-400 font-mono block mt-0.5 leading-none">
+                                  <span className="text-xs text-slate-500 font-medium block mt-1 leading-none">
                                     {driver.id} • {driver.phone}
                                   </span>
                                 </div>
@@ -5542,73 +5603,79 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
                             </td>
 
                             {/* Current Shift */}
-                            <td className="py-5">
-                              <div className="text-left space-y-1.5">
-                                <div className="flex items-center gap-1.5 text-slate-805 font-bold leading-none">
-                                  <span>🕒</span>
+                            <td className="py-4 px-6">
+                              <div className="text-left space-y-2">
+                                <div className="flex items-center gap-2 text-slate-700 font-semibold text-sm leading-none">
+                                  <Clock className="h-4 w-4 text-slate-400" />
                                   <span>{driver.shift}</span>
                                 </div>
-                                <span className="text-[#FF9A00] font-black text-[10.5px] block leading-none">
-                                  {driver.score}
+                                <span className="text-slate-600 font-medium block mt-1 text-xs flex items-center gap-1.5">
+                                  <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                                  <span className="font-bold">{driver.score.replace('★', '').trim()}</span>
                                 </span>
                               </div>
                             </td>
 
                             {/* Status & Assignment */}
-                            <td className="py-5">
+                            <td className="py-4 px-6">
                               <div className="text-left space-y-2">
-                                <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider inline-block leading-none ${driver.status === 'On Duty'
-                                  ? 'bg-emerald-50 text-emerald-600'
+                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider inline-block leading-none border ${driver.status === 'On Duty'
+                                  ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
                                   : driver.status === 'In Break'
-                                    ? 'bg-amber-50 text-amber-600'
-                                    : 'bg-slate-100 text-slate-500'
+                                    ? 'bg-amber-50 text-amber-600 border-amber-200'
+                                    : 'bg-slate-100 text-slate-500 border-slate-200'
                                   }`}>
                                   {driver.status}
                                 </span>
-                                <div className="flex items-center gap-1 text-[10.5px] text-slate-450 font-black leading-none">
-                                  <span>📍</span>
+                                <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold leading-none">
+                                  {driver.assignment.toLowerCase() !== 'no active job' && (
+                                    <MapPin className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                                  )}
                                   <span>{driver.assignment.toUpperCase()}</span>
                                 </div>
                               </div>
                             </td>
 
                             {/* Compliance */}
-                            <td className="py-5">
-                              <div className="text-left space-y-2">
-                                <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-md text-[9px] font-black uppercase tracking-wider inline-flex items-center gap-1 leading-none">
-                                  <span>✓</span> VALID
+                            <td className="py-4 px-6">
+                              <div className="text-left space-y-2.5">
+                                <span className="px-2.5 py-1 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-md text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 leading-none">
+                                  <Shield className="h-3.5 w-3.5" /> VALID
                                 </span>
 
-                                <div className="flex flex-wrap gap-1.5">
-                                  {driver.compliance.filter(c => c !== 'VALID').map(cert => (
-                                    <span key={cert} className="px-1.5 py-0.5 bg-slate-50 border border-slate-205 text-slate-505 rounded text-[8.5px] font-black uppercase tracking-wider leading-none">
-                                      {cert}
-                                    </span>
-                                  ))}
-                                </div>
+                                {driver.compliance.filter(c => c !== 'VALID').length > 0 && (
+                                  <div className="flex flex-wrap gap-2">
+                                    {driver.compliance.filter(c => c !== 'VALID').map(cert => (
+                                      <span key={cert} className="px-2 py-1 bg-slate-50 border border-slate-200 text-slate-600 rounded text-[10px] font-bold uppercase tracking-wider leading-none">
+                                        {cert}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             </td>
 
                             {/* Actions */}
-                            <td className="py-5 text-right">
-                              <div className="flex justify-end gap-2 pr-2">
+                            <td className="py-4 px-6 text-right">
+                              <div className="flex justify-end gap-3">
                                 <button
                                   type="button"
                                   onClick={(e) => { e.stopPropagation(); triggerToast(`Dialing voice connection to ${driver.phone}...`); }}
-                                  className="px-3.5 py-2 border border-slate-205 hover:bg-slate-50 text-slate-705 font-black rounded-xl cursor-pointer text-xs flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                                  className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold rounded-xl cursor-pointer text-sm flex items-center justify-center gap-2 transition-colors shadow-sm"
                                 >
-                                  📞 Call
+                                  <Phone className="h-4 w-4 text-slate-500" />
+                                  Call
                                 </button>
                                 <button
                                   type="button"
                                   onClick={(e) => { e.stopPropagation(); setActiveTab('communication-depot'); setActiveChatDriver(driver.name); triggerToast(`Opening live chat with ${driver.name}`); }}
-                                  className="px-3.5 py-2 bg-[#FFB200] hover:bg-[#E68A00] text-black font-black rounded-xl cursor-pointer text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
+                                  className="px-4 py-2 bg-[#FFB200] hover:bg-[#E68A00] text-black font-semibold rounded-xl cursor-pointer text-sm flex items-center justify-center gap-2 transition-all shadow-sm"
                                 >
-                                  💬 Chat
+                                  <MessageSquare className="h-4 w-4" />
+                                  Chat
                                 </button>
                               </div>
                             </td>
-
                           </tr>
                         ))}
                     </tbody>
@@ -5626,57 +5693,66 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
             <div className="space-y-6 animate-fade-in text-left">
 
               {/* Page header */}
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3.5 text-left">
-                  <div className="p-3 bg-slate-50 border border-slate-205 rounded-2xl text-slate-850">
-                    <Layers className="h-6 w-6 text-slate-900" />
-                  </div>
-                  <div>
-                    <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-sans">Asset Inventory</h1>
-                    <span className="text-xs font-semibold text-slate-455 mt-1.5 block">Depot vehicle transport catalog and manifest ledger.</span>
-                  </div>
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-2">
+                <div>
+                  <h1 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight font-sans">Asset Inventory</h1>
+                  <span className="text-sm font-semibold text-slate-400 mt-1.5 block">5 assets registered · Global VIN Search</span>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="flex border border-slate-205 rounded-xl p-1 bg-slate-50/50">
-                    <button type="button" className="px-3 py-1 bg-white text-slate-800 shadow-xs text-[10px] font-black rounded-lg transition-all cursor-pointer">List</button>
-                    <button type="button" className="px-3 py-1 text-slate-500 hover:text-slate-800 text-[10px] font-black transition-all cursor-pointer" onClick={() => triggerToast('Grid view toggled.')}>Grid</button>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => triggerToast('Register new asset modal opened.')}
-                    className="px-5 py-2 bg-[#FFB200] hover:bg-[#E68A00] text-black font-black text-xs uppercase tracking-wider rounded-xl cursor-pointer shadow-md transition-all"
-                  >
-                    + Register Asset
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => triggerToast('Register new asset modal opened.')}
+                  className="px-5 py-2.5 bg-[#FFB200] hover:bg-[#E6A000] text-black font-black text-sm rounded-xl cursor-pointer shadow-md transition-all flex items-center gap-2"
+                >
+                  <Plus className="h-5 w-5" /> Register Asset
+                </button>
               </div>
 
-              {/* Inventory Table Card */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
+              {/* Search & filter pills & view toggles */}
+              <div className="flex flex-col xl:flex-row justify-between items-stretch xl:items-center gap-4 mt-2">
+                <div className="relative flex-grow max-w-xl">
+                  <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 pointer-events-none">
+                    <Search className="h-4 w-4" />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Search VIN, Plate, Make, Model, Destination..."
+                    value={inventorySearch}
+                    onChange={(e) => setInventorySearch(e.target.value)}
+                    className="w-full pl-10 pr-10 py-3 border border-slate-205 focus:border-[#FFB200] text-sm font-bold rounded-2xl focus:outline-none bg-white transition-all placeholder-slate-400 shadow-sm"
+                  />
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                    <span className="text-[10px] font-bold bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded border border-slate-200">⌘ K</span>
+                  </div>
+                </div>
 
-                {/* Search & filter pills */}
-                <div className="flex flex-col xl:flex-row justify-between items-stretch xl:items-center gap-4">
-                  <div className="relative flex-grow sm:max-w-xs">
-                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 pointer-events-none">🔍</span>
-                    <input
-                      type="text"
-                      placeholder="Search by VIN or Plate..."
-                      value={inventorySearch}
-                      onChange={(e) => setInventorySearch(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 border border-slate-205 focus:border-[#FFB200] text-xs font-bold rounded-xl focus:outline-none bg-white transition-all placeholder-slate-400"
-                    />
+                <div className="flex items-center gap-4">
+                  <div className="flex border border-slate-205 rounded-xl p-1 bg-slate-50/50 shadow-sm">
+                    <button
+                      type="button"
+                      onClick={() => setInventoryView('list')}
+                      className={`p-1.5 rounded-lg transition-all cursor-pointer flex items-center justify-center ${inventoryView === 'list' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-400 hover:text-slate-800'}`}
+                    >
+                      <List className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setInventoryView('grid')}
+                      className={`p-1.5 rounded-lg transition-all cursor-pointer flex items-center justify-center ${inventoryView === 'grid' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-400 hover:text-slate-800'}`}
+                    >
+                      <LayoutGrid className="h-4 w-4" />
+                    </button>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1 bg-slate-50/50 border border-slate-205 rounded-xl p-1 shadow-sm">
                     {['ALL', 'AWAITING LOAD', 'IN DEPOT', 'IN TRANSIT', 'DELIVERED'].map(tabName => (
                       <button
                         key={tabName}
                         type="button"
                         onClick={() => setInventoryFilter(tabName)}
-                        className={`px-3.5 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${inventoryFilter === tabName
-                          ? 'bg-slate-900 text-white shadow-xs'
-                          : 'bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-800'
+                        className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${inventoryFilter === tabName
+                          ? 'bg-white text-slate-800 shadow-xs'
+                          : 'text-slate-400 hover:text-slate-800'
                           }`}
                       >
                         {tabName}
@@ -5684,82 +5760,178 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
                     ))}
                   </div>
                 </div>
+              </div>
 
-                <div className="overflow-x-auto pt-2">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead>
-                      <tr className="border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">
-                        <th className="pb-3 font-black">ID</th>
-                        <th className="pb-3 font-black">VEHICLE</th>
-                        <th className="pb-3 font-black">TYPE</th>
-                        <th className="pb-3 font-black font-mono">VIN</th>
-                        <th className="pb-3 font-black">STATUS</th>
-                        <th className="pb-3 font-black">ASSIGNED TASK</th>
-                        <th className="pb-3 font-black">TARGET DESTINATION</th>
-                        <th className="pb-3 font-black">CLIENT</th>
-                        <th className="pb-3 font-black text-right">ACTIONS</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-50">
-                      {assetsList
-                        .filter(item => {
-                          if (inventorySearch) {
-                            const q = inventorySearch.toLowerCase();
-                            if (!item.vin.toLowerCase().includes(q) && !item.plate.toLowerCase().includes(q) && !item.make.toLowerCase().includes(q)) return false;
-                          }
-                          if (inventoryFilter !== 'ALL') {
-                            if (item.status.toUpperCase() !== inventoryFilter.toUpperCase()) return false;
-                          }
-                          return true;
-                        })
-                        .map(item => (
-                          <tr key={item.id} className="align-middle hover:bg-slate-50/40 transition-colors">
-                            <td className="py-4">
-                              <strong className="font-black text-slate-905 font-mono">{item.id}</strong>
-                            </td>
-                            <td className="py-4">
-                              <strong className="font-extrabold text-slate-805 block">{item.make}</strong>
-                              <span className="text-[10px] text-slate-400 block mt-0.5">{item.color} • {item.year}</span>
-                            </td>
-                            <td className="py-4 font-bold text-slate-655">{item.type}</td>
-                            <td className="py-4">
-                              <strong className="font-mono text-slate-905 block text-[10px]">{item.vin}</strong>
-                              <span className="text-[10px] text-slate-405 block mt-0.5 font-mono">{item.plate}</span>
-                            </td>
-                            <td className="py-4">
-                              <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${item.status === 'IN DEPOT'
-                                ? 'bg-blue-50 text-blue-600'
-                                : item.status === 'IN TRANSIT'
-                                  ? 'bg-emerald-50 text-emerald-600'
-                                  : item.status === 'DELIVERED'
-                                    ? 'bg-slate-100 text-slate-500'
-                                    : 'bg-yellow-50 text-yellow-600'
+              {/* View Content Area */}
+
+                {inventoryView === 'list' ? (
+                  <div className="overflow-x-auto pt-2">
+                    <table className="w-full text-left border-collapse text-xs">
+                      <thead>
+                        <tr className="border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">
+                          <th className="pb-4 pt-2 px-4 w-10">
+                            <input type="checkbox" className="rounded text-[#FFB200] border-slate-300 focus:ring-[#FFB200]" />
+                          </th>
+                          <th className="pb-4 pt-2 px-4 font-black">REGISTERED ASSET</th>
+                          <th className="pb-4 pt-2 px-4 font-black">VIN / PLATE</th>
+                          <th className="pb-4 pt-2 px-4 font-black text-center">OPERATIONAL STATUS</th>
+                          <th className="pb-4 pt-2 px-4 font-black text-center">CURRENT TASK</th>
+                          <th className="pb-4 pt-2 px-4 font-black">TARGET</th>
+                          <th className="pb-4 pt-2 px-4 font-black text-right w-24"></th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-50">
+                        {inventoryAssets
+                          .filter(item => {
+                            if (inventorySearch) {
+                              const q = inventorySearch.toLowerCase();
+                              if (!item.vin.toLowerCase().includes(q) && !item.plate.toLowerCase().includes(q) && !item.name.toLowerCase().includes(q) && !item.targetOffice.toLowerCase().includes(q)) return false;
+                            }
+                            if (inventoryFilter !== 'ALL') {
+                              if (item.status.toUpperCase() !== inventoryFilter.toUpperCase()) return false;
+                            }
+                            return true;
+                          })
+                          .map(item => (
+                            <tr key={item.id} className="align-middle hover:bg-slate-50/40 transition-colors">
+                              <td className="py-4 px-4">
+                                <input type="checkbox" className="rounded text-[#FFB200] border-slate-300 focus:ring-[#FFB200]" />
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex items-center gap-4">
+                                  <div className="w-10 h-10 rounded-full bg-slate-100 overflow-hidden flex-shrink-0 border border-slate-200">
+                                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                  </div>
+                                  <div>
+                                    <strong className="font-extrabold text-slate-805 block text-sm">{item.name}</strong>
+                                    <span className="text-[10px] font-bold text-slate-400 block mt-0.5">{item.specs}</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <span className="font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded text-[10px] font-bold block w-max">{item.vin}</span>
+                                <span className="text-[10px] font-bold text-slate-500 block mt-1">{item.plate}</span>
+                              </td>
+                              <td className="py-4 px-4 text-center">
+                                <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider ${
+                                  item.status === 'IN DEPOT' ? 'bg-blue-50 text-blue-500' :
+                                  item.status === 'IN TRANSIT' ? 'bg-amber-50 text-amber-500' :
+                                  item.status === 'DELIVERED' ? 'bg-emerald-50 text-emerald-500' :
+                                  'bg-slate-100 text-slate-500'
                                 }`}>
+                                  {item.status}
+                                </span>
+                              </td>
+                              <td className="py-4 px-4 text-center">
+                                <span className={`font-black text-xs ${item.task !== 'Available' ? 'text-blue-600' : 'text-slate-400'}`}>
+                                  {item.task}
+                                </span>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex items-start gap-1.5">
+                                  <MapPin className={`h-3.5 w-3.5 mt-0.5 ${item.status === 'DELIVERED' ? 'text-emerald-500' : 'text-emerald-600'}`} />
+                                  <div>
+                                    <strong className="font-extrabold text-slate-805 block text-[11px]">{item.targetOffice}</strong>
+                                    <span className="text-[10px] font-bold text-slate-500 block mt-0.5">{item.targetCompany}</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4 text-right">
+                                <div className="flex justify-end gap-2">
+                                  <button type="button" className="p-2 bg-purple-50 text-purple-600 hover:bg-purple-100 rounded-xl transition-colors">
+                                    <Edit className="h-3.5 w-3.5" />
+                                  </button>
+                                  <button type="button" className="p-2 bg-red-50 text-red-500 hover:bg-red-100 rounded-xl transition-colors">
+                                    <Trash2 className="h-3.5 w-3.5" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pt-2">
+                    {inventoryAssets
+                      .filter(item => {
+                        if (inventorySearch) {
+                          const q = inventorySearch.toLowerCase();
+                          if (!item.vin.toLowerCase().includes(q) && !item.plate.toLowerCase().includes(q) && !item.name.toLowerCase().includes(q) && !item.targetOffice.toLowerCase().includes(q)) return false;
+                        }
+                        if (inventoryFilter !== 'ALL') {
+                          if (item.status.toUpperCase() !== inventoryFilter.toUpperCase()) return false;
+                        }
+                        return true;
+                      })
+                      .map(item => (
+                        <div key={item.id} className="bg-white rounded-[24px] overflow-hidden shadow-sm border border-slate-100 flex flex-col hover:shadow-md transition-shadow">
+                          {/* Top Image Area */}
+                          <div className="relative h-48 w-full bg-slate-900 group">
+                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                            
+                            {/* Checkbox Overlay */}
+                            <div className="absolute top-4 left-4">
+                              <input type="checkbox" className="w-4 h-4 rounded text-[#FFB200] border-white/50 bg-white/20 focus:ring-[#FFB200]" />
+                            </div>
+
+                            {/* Title & VIN Overlay */}
+                            <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                              <div>
+                                <h3 className="text-white font-black text-lg tracking-tight leading-tight">{item.name}</h3>
+                                <p className="text-white/70 font-mono text-[9px] font-bold mt-1 tracking-widest">{item.vin}</p>
+                              </div>
+                              <span className={`px-2.5 py-1 rounded text-[8px] font-black uppercase tracking-wider ${
+                                item.status === 'IN DEPOT' ? 'bg-blue-50 text-blue-600' :
+                                item.status === 'IN TRANSIT' ? 'bg-amber-50 text-amber-600' :
+                                item.status === 'DELIVERED' ? 'bg-emerald-50 text-emerald-600' :
+                                'bg-slate-50 text-slate-600'
+                              }`}>
                                 {item.status}
                               </span>
-                            </td>
-                            <td className="py-4 font-bold font-mono text-slate-805">{item.task}</td>
-                            <td className="py-4 font-bold text-slate-600">📍 {item.target}</td>
-                            <td className="py-4 font-bold text-slate-800">{item.client}</td>
-                            <td className="py-4 text-right">
-                              <button
-                                type="button"
-                                onClick={() => triggerToast(`Viewing details for asset ${item.id}`)}
-                                className="px-3 py-1.5 border border-slate-205 hover:bg-slate-50 text-[10px] font-black text-slate-700 rounded-xl uppercase tracking-wider cursor-pointer transition-colors"
-                              >
-                                View
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                </div>
+                            </div>
+                          </div>
 
-              </div>
+                          {/* Details Area */}
+                          <div className="p-5 flex flex-col flex-grow">
+                            <div className="grid grid-cols-2 gap-4 mb-4">
+                              <div>
+                                <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">TARGET OFFICE</span>
+                                <strong className="block text-xs font-black text-slate-800">{item.targetOffice}</strong>
+                              </div>
+                              <div className="text-right">
+                                <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">PLATE</span>
+                                <strong className="block text-xs font-black text-slate-800 font-mono">{item.plate}</strong>
+                              </div>
+                            </div>
+                            
+                            <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <div className="p-1.5 bg-slate-50 rounded-lg border border-slate-100">
+                                  <Truck className="h-3.5 w-3.5 text-slate-400" />
+                                </div>
+                                <div>
+                                  <span className="block text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">TYPE</span>
+                                  <strong className="block text-[11px] font-black text-slate-700 leading-none">{item.type}</strong>
+                                </div>
+                              </div>
+                              <div className="flex gap-2">
+                                <button type="button" className="p-2 bg-slate-50 hover:bg-purple-50 text-slate-400 hover:text-purple-600 border border-slate-100 rounded-xl transition-colors">
+                                  <Edit className="h-3.5 w-3.5" />
+                                </button>
+                                <button type="button" className="p-2 bg-red-50 text-red-500 hover:bg-red-100 border border-red-100 rounded-xl transition-colors">
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                )}
             </div>
           )}
-
           {activeTab === 'communication-depot' && (
             <div className="space-y-6 animate-fade-in text-left">
 
@@ -5847,9 +6019,23 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
                   {/* Chat Pane Header */}
                   <div className="p-4 px-6 border-b border-slate-100 flex items-center justify-between bg-white">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-[#111827] text-white flex items-center justify-center font-black text-sm uppercase">
-                        {activeChatDriver.split(' ').map(n => n[0]).join('')}
-                      </div>
+                      {(() => {
+                        let avatarUrl = null;
+                        if (activeChatDriver === 'Noah Williams') {
+                          avatarUrl = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&auto=format&fit=crop';
+                        } else {
+                          const driver = rosterDrivers.find(d => d.name === activeChatDriver) || availableDrivers?.find(d => d.name === activeChatDriver);
+                          if (driver && driver.avatar) avatarUrl = driver.avatar;
+                        }
+                        
+                        return avatarUrl ? (
+                          <img src={avatarUrl} alt={activeChatDriver} className="w-10 h-10 rounded-xl object-cover shrink-0 shadow-sm border border-slate-200" />
+                        ) : (
+                          <div className="w-10 h-10 rounded-xl bg-[#111827] text-white flex items-center justify-center font-black text-sm uppercase shrink-0">
+                            {activeChatDriver.split(' ').map(n => n[0]).join('')}
+                          </div>
+                        );
+                      })()}
                       <div className="text-left">
                         <strong className="text-xs font-black text-slate-909 block">{activeChatDriver}</strong>
                         <span className="text-[9.5px] text-slate-455 font-bold block mt-1 uppercase tracking-wider">Active Status</span>
@@ -6206,12 +6392,12 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
                       {/* 2FA Card */}
                       <div className="bg-[#1e293b] rounded-3xl p-6 shadow-md border border-slate-800 text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                         <div className="flex gap-4 items-start">
-                          <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center text-yellow-500 shrink-0 shadow-sm border border-slate-700">
-                            <Key size={20} />
+                          <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-yellow-500 shrink-0 shadow-sm border border-slate-200">
+                            <Key size={20} strokeWidth={2.5} />
                           </div>
                           <div>
-                            <strong className="text-sm font-black text-white block">Two-Factor Authentication</strong>
-                            <span className="text-xs text-slate-400 font-semibold block mt-1 leading-relaxed">Add an extra layer of security to your account.</span>
+                            <strong className="text-sm font-black block !text-white" style={{ color: '#ffffff' }}>Two-Factor Authentication</strong>
+                            <span className="text-xs font-semibold block mt-1 leading-relaxed !text-slate-300" style={{ color: '#cbd5e1' }}>Add an extra layer of security to your account.</span>
                           </div>
                         </div>
                         <div className="flex gap-2.5 w-full sm:w-auto shrink-0">
@@ -6225,7 +6411,8 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
                           <button
                             type="button"
                             onClick={() => triggerToast('Opening MFA documentation...')}
-                            className="px-5 py-3 border border-slate-700 hover:bg-white/5 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer bg-transparent"
+                            className="px-5 py-3 border border-slate-600 hover:bg-white/10 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer bg-transparent !text-white font-black"
+                            style={{ color: '#ffffff' }}
                           >
                             Learn More
                           </button>
@@ -6276,8 +6463,8 @@ export default function DispatchDashboard({ activeTab = 'overview', setActiveTab
                           <LifeBuoy size={20} className="text-slate-800" />
                         </div>
                         <div>
-                          <strong className="text-base font-black text-white block">Contact Super Admin</strong>
-                          <span className="text-[9px] text-slate-400 font-bold block mt-1 uppercase tracking-wider">Internal Team Support Ticket</span>
+                          <strong className="text-base font-black block !text-white" style={{ color: '#ffffff' }}>Contact Super Admin</strong>
+                          <span className="text-[9px] font-bold block mt-1 uppercase tracking-wider !text-slate-300" style={{ color: '#cbd5e1' }}>Internal Team Support Ticket</span>
                         </div>
                       </div>
 
