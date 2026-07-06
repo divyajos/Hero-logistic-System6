@@ -1,0 +1,324 @@
+import React, { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { 
+  LayoutDashboard, Users, Truck, Briefcase, FileText, Settings, 
+  ShieldAlert, BarChart3, Navigation, Shield, LogOut, ChevronLeft, 
+  ChevronRight, MapPin, Layers, Key, Home, HelpCircle, Calendar,
+  Bell, FileSignature, DollarSign, Activity, AlertTriangle, QrCode, Cpu,
+  MessageSquare, Clock, Plus, ChevronDown, Inbox, Zap, Package, CreditCard, User
+} from 'lucide-react';
+import heroLogo from '../../assets/hero.png';
+
+export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobileOpen }) {
+  const { user, logout } = useAuth();
+  const [collapsed, setCollapsed] = useState(false);
+  const [operationsOpen, setOperationsOpen] = useState(true);
+  const [settingsOpen, setSettingsOpen] = useState(true);
+
+  if (!user) return null;
+
+  // Determine menu items by role matching Phase 4A roadmap
+  const getMenuItems = (role) => {
+    switch (role) {
+      case 'Super Admin':
+        return [
+          { id: 'overview', label: 'Platform Dashboard', icon: LayoutDashboard },
+          { id: 'companies', label: 'Companies', icon: Users },
+          { id: 'subscriptions', label: 'Subscriptions', icon: Key },
+          { id: 'plans', label: 'Membership Plans', icon: Layers },
+          { id: 'feature-access', label: 'Feature Access', icon: Shield },
+          { id: 'white-label', label: 'White Label', icon: Settings },
+          { id: 'support', label: 'Support Tickets', icon: FileText },
+          { id: 'billing', label: 'Billing', icon: DollarSign },
+          { id: 'analytics', label: 'System Analytics', icon: BarChart3 },
+          { id: 'transfers', label: 'Inter-Company Transfers', icon: Activity },
+          { id: 'ai-controls', label: 'AI Controls', icon: Cpu },
+          { id: 'settings', label: 'Settings', icon: Settings }
+        ];
+      case 'Sales':
+        return [
+          { id: 'overview', label: 'Sales Dashboard', icon: LayoutDashboard },
+          { id: 'leads', label: 'Leads', icon: Users },
+          { id: 'kanban', label: 'Pipeline Board', icon: Layers },
+          { id: 'scheduler', label: 'Demo Bookings', icon: Calendar },
+          { id: 'trials', label: 'Trial Companies', icon: Users },
+          { id: 'proposals', label: 'Proposals', icon: FileText },
+          { id: 'calendar', label: 'Follow-Ups', icon: Calendar },
+          { id: 'onboarding', label: 'Onboarding Handover', icon: Briefcase },
+          { id: 'reports', label: 'Sales Reports', icon: BarChart3 },
+          { id: 'settings', label: 'Settings', icon: Settings }
+        ];
+      case 'Company Admin':
+        return [
+          { id: 'command-center', label: 'Command Center', icon: LayoutDashboard },
+          { id: 'loads', label: 'Loads', icon: Package },
+          { id: 'vehicles', label: 'Vehicles', icon: Truck },
+          { 
+            id: 'operations', label: 'Operations', icon: Briefcase, isGroup: true, children: [
+              { id: 'branches', label: 'Branches' },
+              { id: 'drivers', label: 'Drivers' },
+              { id: 'customers', label: 'Customers' },
+              { id: 'asset-inventory', label: 'Asset Inventory' },
+              { id: 'safety-checklists', label: 'Safety Checklists' },
+              { id: 'exceptions', label: 'Delivery Issues' }
+            ]
+          },
+          { id: 'finance', label: 'Finance', icon: DollarSign },
+          { id: 'user-roles', label: 'User Roles', icon: Shield },
+          { id: 'support', label: 'Support', icon: MessageSquare },
+          {
+            id: 'settings', label: 'Settings', icon: Settings, isGroup: true, children: [
+              { id: 'company-settings', label: 'Company Settings' },
+              { id: 'subscription-billing', label: 'Subscription & Billing' },
+              { id: 'my-profile', label: 'My Profile' }
+            ]
+          }
+        ];
+      case 'Dispatcher':
+        return [
+          { id: 'overview', label: 'Command Center', icon: LayoutDashboard },
+          { id: 'loads', label: 'Loads', icon: Layers },
+          { id: 'load-inbox', label: 'Load Inbox', icon: Inbox },
+          { id: 'terminal-workspace', label: 'Terminal Workspace', icon: Zap },
+          { id: 'fleet-monitor', label: 'Fleet Monitor', icon: Navigation },
+          { id: 'fleet-assets', label: 'Fleet Assets', icon: Truck },
+          { id: 'asset-inventory', label: 'Asset Inventory', icon: FileText },
+          { id: 'roster-control', label: 'Roster Control', icon: Users },
+          { id: 'communication-depot', label: 'Communication Depot', icon: MessageSquare },
+          { id: 'system-settings', label: 'System Settings', icon: Settings }
+        ];
+      case 'Driver':
+        return [
+          { id: 'start-finish', label: 'Start Work / Finish Work', icon: Clock },
+          { id: 'overview', label: 'Jobs', icon: LayoutDashboard },
+          { id: 'nearby-services', label: 'Nearby Services', icon: MapPin },
+          { id: 'notifications', label: 'Notifications', icon: Bell },
+          { id: 'documents', label: 'Documents', icon: FileText },
+          { id: 'create-draft-load', label: 'Create Draft Load', icon: Plus },
+          { id: 'add-expense', label: 'Add Expense', icon: DollarSign },
+          { id: 'earnings', label: 'My Pay', icon: BarChart3 },
+          { id: 'chat', label: 'Contact Dispatch', icon: MessageSquare },
+          { id: 'leave-management', label: 'Leave Management', icon: Calendar },
+          { id: 'incidents', label: 'Incident Reporting', icon: ShieldAlert },
+          { id: 'maintenance', label: 'Maintenance Request', icon: Truck }
+        ];
+      case 'Warehouse Manager':
+        return [
+          { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },
+          { id: 'inbound', label: 'Inbound', icon: Bell },
+          { id: 'outbound', label: 'Outbound', icon: Bell },
+          { id: 'stock', label: 'Current Stock', icon: Layers },
+          { id: 'yard-map', label: 'Yard / Warehouse Map', icon: MapPin },
+          { id: 'holding-areas', label: 'Holding Areas', icon: Home },
+          { id: 'load-lanes', label: 'Load Lanes', icon: Layers },
+          { id: 'scanning', label: 'Scanning', icon: QrCode },
+          { id: 'labels', label: 'Labels', icon: QrCode },
+          { id: 'movements', label: 'Movements', icon: Activity },
+          { id: 'reports', label: 'Reports', icon: BarChart3 }
+        ];
+      case 'Yard Attendant':
+        return [
+          { id: 'start-finish', label: 'Start Work / Finish Work', icon: Clock },
+          { id: 'overview', label: 'Assigned tasks', icon: LayoutDashboard },
+          { id: 'scan-btn', label: 'Scan button', icon: QrCode },
+          { id: 'move-asset', label: 'Move item', icon: Truck },
+          { id: 'scan-in', label: 'Scan into location', icon: QrCode },
+          { id: 'scan-out', label: 'Scan out of location', icon: QrCode },
+          { id: 'lane-assignment', label: 'Load lane assignment', icon: Layers },
+          { id: 'inspections', label: 'Report issue', icon: AlertTriangle }
+        ];
+      case 'Accounts':
+        return [
+          { id: 'overview', label: 'Accounts Dashboard', icon: LayoutDashboard },
+          { id: 'invoice-review', label: 'Invoice Review', icon: FileText },
+          { id: 'sent-invoices', label: 'Sent Invoices', icon: FileText },
+          { id: 'payments', label: 'Payments', icon: DollarSign },
+          { id: 'payroll', label: 'Payroll', icon: Users },
+          { id: 'contractor-pay', label: 'Contractor Pay', icon: DollarSign },
+          { id: 'employee-pay', label: 'Employee Pay', icon: Users },
+          { id: 'expenses', label: 'Expenses', icon: DollarSign },
+          { id: 'tax', label: 'GST / PAYG', icon: FileText },
+          { id: 'p-l', label: 'P&L', icon: BarChart3 },
+          { id: 'profitability', label: 'Vehicle Costs', icon: BarChart3 },
+          { id: 'reports', label: 'Reports', icon: FileText }
+        ];
+      case 'Customer':
+        return [
+          { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },
+          { id: 'my-loads', label: 'My Loads', icon: Layers },
+          { id: 'tracking', label: 'Track Delivery', icon: Navigation },
+          { id: 'documents', label: 'Documents', icon: FileText },
+          { id: 'invoices', label: 'Invoices', icon: DollarSign },
+          { id: 'payments', label: 'Payments', icon: DollarSign },
+          { id: 'load-requests', label: 'Load Requests', icon: Plus },
+          { id: 'notifications', label: 'Notifications', icon: Bell },
+          { id: 'chat', label: 'Dispatcher Chat', icon: MessageSquare },
+          { id: 'support', label: 'Support', icon: HelpCircle },
+          { id: 'settings', label: 'Settings', icon: Settings }
+        ];
+      default:
+        return [{ id: 'overview', label: 'Dashboard', icon: LayoutDashboard }];
+    }
+  };
+
+  const menuItems = getMenuItems(user.role);
+  const isDispatcher = user.role === 'Dispatcher';
+
+  return (
+    <aside className={`
+      bg-[#0A0A0A] border-r border-[#1F1F1F] h-screen flex flex-col justify-between
+      fixed md:sticky top-0 bottom-0 left-0 transition-all duration-300 z-50
+      ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      ${collapsed ? 'w-20' : 'w-64'}
+    `}>
+      
+      {/* Top Brand Logo */}
+      <div>
+        {user.role === 'Company Admin' || user.role === 'Dispatcher' ? (
+          <div className="flex flex-col items-center justify-center pt-8 pb-6 border-b border-[#1F1F1F]">
+            <div className="text-2xl font-black text-[#FFD400] tracking-wide select-none">
+              Hero
+            </div>
+            <div className="text-[9px] font-black text-[#FFD400]/80 tracking-widest uppercase mt-1 flex items-center gap-1 select-none">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] inline-block animate-pulse"></span>
+              ADMIN PORTAL
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col p-4 border-b border-[#1F1F1F]">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center overflow-hidden">
+                <div className="mr-3 px-2 py-1 bg-black border border-[#1F1F1F] rounded-xl flex-shrink-0 flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-300">
+                  <img src={heroLogo} alt="Hero Logistics Logo" className="h-12 w-auto object-contain" />
+                </div>
+              </div>
+            </div>
+            {user.role === 'Dispatcher' && (
+              <div className="mt-3 px-3 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl">
+                <span className="block text-[9px] font-black uppercase tracking-widest text-slate-500 leading-none">Terminal</span>
+                <span className="block text-[11px] font-black text-white mt-1 leading-none">Sydney Central Depot</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Sidebar Menu Items */}
+        <nav className="p-3.5 space-y-1 flex-grow overflow-y-auto max-h-[calc(100vh-150px)] scrollbar-none">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            
+            if (item.isGroup) {
+              const isOpen = item.id === 'operations' ? operationsOpen : settingsOpen;
+              const setIsOpen = item.id === 'operations' ? setOperationsOpen : setSettingsOpen;
+              
+              return (
+                <div key={item.id} className="space-y-1">
+                  <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="w-full flex items-center justify-between p-2.5 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 cursor-pointer transition-all"
+                  >
+                    <div className="flex items-center">
+                      <Icon className="h-4.5 w-4.5 flex-shrink-0 text-gray-400" />
+                      {!collapsed && <span className="ml-3 animate-fade-in">{item.label}</span>}
+                    </div>
+                    {!collapsed && (
+                      <ChevronRight className={`h-3.5 w-3.5 text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-90 text-gray-400' : ''}`} />
+                    )}
+                  </button>
+                  
+                  {isOpen && !collapsed && (
+                    <div className="pl-6 space-y-1 animate-fade-in border-l border-white/5 ml-4.5">
+                      {item.children.map((child) => {
+                        const isChildActive = activeTab === child.id;
+                        return (
+                          <button
+                            key={child.id}
+                            onClick={() => {
+                              setActiveTab(child.id);
+                              if (setMobileOpen) setMobileOpen(false);
+                            }}
+                            className={`w-full text-left py-2 px-3 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer block ${
+                              isChildActive
+                                ? 'border border-[#FFD400] text-[#FFD400] bg-[#FFD400]/5 font-bold'
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                            }`}
+                          >
+                            {child.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            const isActive = activeTab === item.id;
+            
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  if (setMobileOpen) setMobileOpen(false);
+                }}
+                className={`group w-full flex items-center p-2.5 rounded-xl text-sm transition-all cursor-pointer ${
+                  isActive 
+                    ? 'bg-[#FFD400] text-black font-bold shadow-md shadow-[#FFD400]/10' 
+                    : 'text-gray-400 font-medium hover:text-white hover:bg-white/5'
+                }`}
+                title={item.label}
+              >
+                <Icon className={`h-4.5 w-4.5 flex-shrink-0 ${isActive ? 'text-black' : 'text-gray-400 group-hover:text-white'}`} />
+                {!collapsed && <span className="ml-3 animate-fade-in">{item.label}</span>}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Bottom Profile Details or Sign Out */}
+      <div className="border-t border-[#1F1F1F] p-3.5 bg-[#0A0A0A] flex flex-col gap-2">
+        {user.role === 'Dispatcher' || user.role === 'Company Admin' ? (
+          <button
+            onClick={logout}
+            className="w-full flex items-center p-2.5 rounded-xl text-xs font-black text-red-500 hover:bg-red-500/10 cursor-pointer transition-all uppercase tracking-wider gap-2 text-left"
+            title="Sign Out"
+          >
+            <span className="text-base leading-none">←</span>
+            {!collapsed && <span>SIGN OUT</span>}
+          </button>
+        ) : (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center overflow-hidden gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/25 flex items-center justify-center font-bold text-sm text-[#FFD400] flex-shrink-0">
+                {user.name.charAt(0)}
+              </div>
+              {!collapsed && (
+                <div className="text-left overflow-hidden animate-fade-in">
+                  <h5 className="text-xs font-extrabold text-white truncate">
+                    {user.role === 'Super Admin' ? 'Role: Super Admin' : user.name}
+                  </h5>
+                  <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mt-0.5">
+                    {user.role === 'Super Admin' ? 'Platform Owner' : user.role}
+                  </span>
+                </div>
+              )}
+            </div>
+            
+            {!collapsed && (
+              <button 
+                onClick={logout}
+                className="p-2 hover:bg-red-500/10 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
+                title="Log Out"
+              >
+                <LogOut className="h-4.5 w-4.5" />
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
+    </aside>
+  );
+}
