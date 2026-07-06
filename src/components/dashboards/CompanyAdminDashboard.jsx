@@ -4947,7 +4947,7 @@ const CustomersDashboardView = () => {
 // ===== OPERATIONS: ASSET INVENTORY DASHBOARD VIEW =====
 const AssetInventoryDashboardView = () => {
   const [assets, setAssets] = React.useState([
-    { id: '1', name: '2022 Toyota Camry', desc: 'White · Sedan · 1,450 kg', vin: '1HGCM82633A004352', plate: 'ABC 123', status: 'IN DEPOT', task: 'LD-2041', target: 'Brisbane QLD', targetSub: 'AutoDeal Pty Ltd', img: 'https://images.unsplash.com/photo-1516576880881-14017b29a739?w=600&auto=format&fit=crop&q=60' },
+    { id: '1', name: '2022 Toyota Camry', desc: 'White · Sedan · 1,450 kg', vin: '1HGCM82633A004352', plate: 'ABC 123', status: 'IN DEPOT', task: 'LD-2041', target: 'Brisbane QLD', targetSub: 'AutoDeal Pty Ltd', img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&auto=format&fit=crop&q=60' },
     { id: '2', name: '2023 Honda CR-V', desc: 'Black · SUV · 1,720 kg', vin: '2T1BURHE0JC034820', plate: 'XYZ 987', status: 'IN TRANSIT', task: 'LD-2039', target: 'Melbourne VIC', targetSub: 'Smith Motors', img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&auto=format&fit=crop&q=60' },
     { id: '3', name: '2024 Tesla Model S', desc: 'Red · Sedan · 2,162 kg', vin: '5YJSA1DG9PFJ12345', plate: 'EV 0001', status: 'DELIVERED', task: 'LD-2031', target: 'Sydney NSW', targetSub: 'EV Fleet Co', img: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&auto=format&fit=crop&q=60' },
     { id: '4', name: '2021 Ford Ranger', desc: 'Silver · Ute · 2,030 kg', vin: '3FADP4BJ7FM123456', plate: 'TRK 444', status: 'AWAITING LOAD', task: 'Available', target: 'Perth WA', targetSub: 'WA Motors', img: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&auto=format&fit=crop&q=60' },
@@ -5120,7 +5120,7 @@ const AssetInventoryDashboardView = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             {filtered.map(a => {
-              const isDarkBg = a.id === '5';
+              const isDarkBg = false;
               const nameParts = a.name.split(' ');
               const yearModel = nameParts[0];
               const makeModel = nameParts.slice(1).join(' ');
@@ -5128,9 +5128,9 @@ const AssetInventoryDashboardView = () => {
               return (
                 <div key={a.id} className="bg-white border border-gray-150 rounded-2xl overflow-hidden shadow-xs hover:border-yellow-400 hover:shadow-yellow-500/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md flex flex-col justify-between">
                   {/* Top card block with image or dark solid background */}
-                  <div className={`relative h-44 p-5 flex flex-col justify-between ${isDarkBg ? 'bg-[#0B0B0B]' : ''}`} style={!isDarkBg ? { backgroundImage: `url(${a.img})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}>
+                  <div className={`relative h-44 p-5 flex flex-col justify-between`} style={{ backgroundImage: `url(${a.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                     {/* Dark overlay for readability on image backgrounds */}
-                    {!isDarkBg && <div className="absolute inset-0 bg-black/40 z-0" />}
+                    <div className="absolute inset-0 bg-black/40 z-0" />
 
                     {/* Checkbox and Status Badge Row */}
                     <div className="flex justify-between items-center z-10 relative">

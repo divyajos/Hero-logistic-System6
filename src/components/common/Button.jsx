@@ -16,7 +16,7 @@ export default function Button({
   
   const variants = {
     primary: 'bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-slate-950 shadow-lg shadow-brand-500/20 hover:shadow-xl hover:shadow-brand-500/35 focus:ring-brand-500 border border-transparent',
-    secondary: 'bg-white hover:bg-[#2E2E2E] text-slate-700 border border-slate-200 focus:ring-slate-500',
+    secondary: 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 focus:ring-slate-500',
     danger: 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-slate-900 shadow-lg shadow-red-500/25 hover:shadow-xl hover:shadow-red-500/40 focus:ring-red-500 border border-transparent',
     success: 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-slate-900 shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/35 focus:ring-emerald-500 border border-transparent',
     purple: 'bg-gradient-to-r from-purple-500 to-indigo-650 hover:from-purple-600 hover:to-indigo-750 text-slate-900 shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/35 focus:ring-purple-500 border border-transparent',

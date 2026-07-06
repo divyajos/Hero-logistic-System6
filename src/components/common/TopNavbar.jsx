@@ -112,7 +112,7 @@ export default function TopNavbar({ onNotificationClick, notificationCount = 3, 
           <Menu className="h-5 w-5" />
         </button>
 
-        {user.role === 'Dispatcher' || user.role === 'Company Admin' ? (
+        {user.role === 'Dispatcher' ? (
           <div className="text-left select-none animate-fade-in hidden md:block">
             <span className="text-[9px] text-slate-400 font-bold tracking-widest uppercase block leading-none">
               Dispatcher
@@ -121,11 +121,7 @@ export default function TopNavbar({ onNotificationClick, notificationCount = 3, 
               Live Dispatch Operations
             </span>
           </div>
-        ) : (
-          <div className="text-left font-black tracking-wide text-xs text-slate-700 select-none">
-            {user.company || 'HERO LOGISTICS'}
-          </div>
-        )}
+        ) : null}
       </div>
 
       {/* Middle: Centered Search Input */}
@@ -284,9 +280,6 @@ export default function TopNavbar({ onNotificationClick, notificationCount = 3, 
                   <h5 className="text-[11px] font-black text-slate-950 uppercase tracking-wider">
                     SARAH MITCHELL
                   </h5>
-                  <span className="text-[9px] text-slate-500 font-extrabold tracking-wider block mt-0.5">
-                    DISPATCHER
-                  </span>
                 </div>
                 <div className="w-8.5 h-8.5 rounded-full bg-[#FFD400] text-black flex items-center justify-center font-extrabold text-xs shadow-sm hover:scale-105 transition-transform p-1">
                   SM

@@ -1047,10 +1047,10 @@ export default function MembershipPlans({ tenants = [], logAuditAction, triggerT
               <button
                 key={tab.id}
                 onClick={() => setActiveSubTab(tab.id)}
-                className={`px-3 py-2 rounded-xl border flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
+                className={`px-3 py-2 rounded-xl border flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeSubTab === tab.id
                     ? 'bg-brand-500 border-brand-500 text-slate-950 font-black shadow-md'
-                    : 'bg-slate-900/60 border-slate-200/70 text-slate-500 hover:text-slate-700 hover:bg-white/30'
+                    : 'bg-slate-900/60 border-slate-200/70 text-white hover:bg-slate-800'
                 }`}
               >
                 <Icon className="h-4 w-4" />

@@ -1917,7 +1917,7 @@ export default function WhiteLabelManagement({ tenants = [], logAuditAction, tri
               >
                 {/* Navbar */}
                 <div 
-                  className="px-3 py-2.5 flex justify-between items-center text-slate-900 border-b"
+                  className="px-3 py-2.5 flex justify-between items-center text-slate-200 border-b"
                   style={{ backgroundColor: tempConfig.headerBg, borderColor: tempConfig.tableBorder }}
                 >
                   <div className="flex items-center gap-1.5">
@@ -1936,7 +1936,7 @@ export default function WhiteLabelManagement({ tenants = [], logAuditAction, tri
                   
                   {/* Mock Sidebar */}
                   <div 
-                    className="w-24 p-2 flex flex-col justify-between text-[9px] text-slate-500 border-r"
+                    className="w-24 p-2 flex flex-col justify-between text-[9px] text-slate-300 border-r"
                     style={{ backgroundColor: tempConfig.sidebarBg, borderColor: tempConfig.tableBorder }}
                   >
                     <div className="space-y-1.5">
@@ -1947,7 +1947,7 @@ export default function WhiteLabelManagement({ tenants = [], logAuditAction, tri
                       <div className="px-2 py-1 rounded hover:bg-white/20">Fleet</div>
                       <div className="px-2 py-1 rounded hover:bg-white/20">Drivers</div>
                     </div>
-                    <div className="text-[8px] text-slate-500 text-center font-mono">
+                    <div className="text-[8px] text-slate-400 text-center font-mono">
                       v{tempConfig.version}
                     </div>
                   </div>
@@ -1955,7 +1955,7 @@ export default function WhiteLabelManagement({ tenants = [], logAuditAction, tri
                   {/* Mock main contents grid */}
                   <div className="flex-1 p-3.5 space-y-3 overflow-y-auto text-slate-500">
                     <div className="flex justify-between items-center">
-                      <span className="font-extrabold text-slate-900 text-[12px]">{tempConfig.portalName}</span>
+                      <span className="font-extrabold text-slate-200 text-[12px]">{tempConfig.portalName}</span>
                       <button 
                         className={`px-3 py-1 text-[10px] text-slate-950 font-black hover:opacity-90 transition-all ${
                           tempConfig.buttonStyle === 'rounded-xl' ? 'rounded-xl' : 'rounded-lg'
@@ -1976,11 +1976,11 @@ export default function WhiteLabelManagement({ tenants = [], logAuditAction, tri
                       </div>
                       <div className="p-2 space-y-1 font-mono text-[9px]">
                         <div className="flex justify-between py-1 border-b border-slate-200/20">
-                          <span className="text-slate-900">LD-9411</span>
+                          <span className="text-slate-300">LD-9411</span>
                           <span className="text-emerald-400">Delivered</span>
                         </div>
                         <div className="flex justify-between py-1">
-                          <span className="text-slate-900">LD-4820</span>
+                          <span className="text-slate-300">LD-4820</span>
                           <span className="text-amber-500">In Transit</span>
                         </div>
                       </div>
@@ -2173,7 +2173,7 @@ export default function WhiteLabelManagement({ tenants = [], logAuditAction, tri
             )}
 
             {/* Quick action buttons list */}
-            <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-200/45 flex justify-between items-center text-[11px] text-slate-500">
+            <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-200/45 flex justify-between items-center text-[11px] text-slate-300">
               <span className="font-semibold">Modify preview attributes live using settings tabs.</span>
               <button
                 onClick={handleSaveConfig}

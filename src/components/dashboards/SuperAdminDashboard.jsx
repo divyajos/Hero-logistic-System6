@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
@@ -61,6 +61,7 @@ import {
 
 export default function SuperAdminDashboard({ activeTab = 'overview', setActiveTab }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { tenants, platformLoad, slaTarget, tickets, auditLogs, loading } = useSelector((state) => state.company);
 
   const validatePlanLimits = (tenant) => {
@@ -120,10 +121,10 @@ export default function SuperAdminDashboard({ activeTab = 'overview', setActiveT
   const calculateStorageUsage = () => {
     let totalGb = 0;
     tenants.forEach(t => {
-      const users = t.users || 0;
-      const drivers = t.drivers || 0;
-      const vehicles = t.vehicles || 0;
-      const branches = t.branches || 0;
+      const users = Array.isArray(t.users) ? t.users.length : (t.users || 0);
+      const drivers = Array.isArray(t.drivers) ? t.drivers.length : (t.drivers || 0);
+      const vehicles = Array.isArray(t.vehicles) ? t.vehicles.length : (t.vehicles || 0);
+      const branches = Array.isArray(t.branches) ? t.branches.length : (t.branches || 0);
       totalGb += (users * 5) + (drivers * 10) + (vehicles * 15) + (branches * 20);
     });
     return totalGb / 1000;
@@ -507,6 +508,7 @@ export default function SuperAdminDashboard({ activeTab = 'overview', setActiveT
   const handleLoginAs = (id, name) => {
     logAuditAction('Login As Used', `Simulated admin session as ${name}.`, id, name);
     triggerToast(`Simulating login session as ${name}`);
+    navigate('/company-admin-dashboard');
   };
 
   const handleResetPassword = (id, name) => {
@@ -1635,9 +1637,9 @@ export default function SuperAdminDashboard({ activeTab = 'overview', setActiveT
                 <StatCard title="Expiring This Month" value={tenants.filter(t => t.plan === 'Starter' && t.status !== 'Hold').length} description="Trial instances expiring soon" trend="1 warning" trendDirection="down" />
                 <StatCard title="Monthly Revenue" value={formattedMrr} description="MRR platform baseline" trend="+8%" trendDirection="up" />
                 <StatCard title="Annual Revenue" value={formattedArr} description="ARR projection rate" trend="+12%" trendDirection="up" />
-                <StatCard title="Active Users" value={tenants.reduce((acc, curr) => acc + (curr.users || (curr.id % 2 === 0 ? 5 : 3)), 0)} description="Managers & staff active" trend="+3 active" trendDirection="up" />
-                <StatCard title="Total Drivers" value={tenants.reduce((acc, curr) => acc + (curr.drivers || 0), 0)} description="SaaS fleet drivers pool" trend="Stable" trendDirection="neutral" />
-                <StatCard title="Total Loads" value={tenants.reduce((acc, curr) => acc + (curr.activeLoads || (curr.id % 2 === 0 ? 12 : 5)), 0)} description="Loads managed all-time" trend="+4 today" trendDirection="up" />
+                <StatCard title="Active Users" value={tenants.reduce((acc, curr) => acc + (Array.isArray(curr.users) ? curr.users.length : (curr.users || (curr.id % 2 === 0 ? 5 : 3))), 0)} description="Managers & staff active" trend="+3 active" trendDirection="up" />
+                <StatCard title="Total Drivers" value={tenants.reduce((acc, curr) => acc + (Array.isArray(curr.drivers) ? curr.drivers.length : (curr.drivers || 0)), 0)} description="SaaS fleet drivers pool" trend="Stable" trendDirection="neutral" />
+                <StatCard title="Total Loads" value={tenants.reduce((acc, curr) => acc + (Array.isArray(curr.activeLoads) ? curr.activeLoads.length : (curr.activeLoads || (curr.id % 2 === 0 ? 12 : 5))), 0)} description="Loads managed all-time" trend="+4 today" trendDirection="up" />
                 <StatCard title="Storage Usage" value={`${calculatedStorage.toFixed(2)} TB / 10 TB`} description="Total data usage pool" trend="Normal" trendDirection="neutral" />
               </div>
 
@@ -1836,11 +1838,11 @@ export default function SuperAdminDashboard({ activeTab = 'overview', setActiveT
                       { key: 'id', label: 'Company ID', render: (row) => <span className="font-mono text-slate-500 font-bold">#TEN-{row.id}</span> },
                       { key: 'plan', label: 'Subscription Plan', render: (row) => <span className="font-bold text-slate-500">{row.plan}</span> },
                       { key: 'status', label: 'Status', render: (row) => <StatusBadge status={row.status} /> },
-                      { key: 'branches', label: 'Branches', render: (row) => <span>{row.branches !== undefined ? row.branches : 1}</span> },
-                      { key: 'users', label: 'Users', render: (row) => <span>{row.users !== undefined ? row.users : 1}</span> },
-                      { key: 'drivers', label: 'Drivers', render: (row) => <span className="font-mono">{row.drivers || 0}</span> },
-                      { key: 'vehicles', label: 'Fleet Vehicles', render: (row) => <span>{row.vehicles !== undefined ? row.vehicles : 0}</span> },
-                      { key: 'activeLoads', label: 'Active Loads', render: (row) => <span>{row.activeLoads !== undefined ? row.activeLoads : 0}</span> },
+                      { key: 'branches', label: 'Branches', render: (row) => <span>{Array.isArray(row.branches) ? row.branches.length : (row.branches !== undefined ? row.branches : 1)}</span> },
+                      { key: 'users', label: 'Users', render: (row) => <span>{Array.isArray(row.users) ? row.users.length : (row.users !== undefined ? row.users : 1)}</span> },
+                      { key: 'drivers', label: 'Drivers', render: (row) => <span className="font-mono">{Array.isArray(row.drivers) ? row.drivers.length : (row.drivers || 0)}</span> },
+                      { key: 'vehicles', label: 'Fleet Vehicles', render: (row) => <span>{Array.isArray(row.vehicles) ? row.vehicles.length : (row.vehicles !== undefined ? row.vehicles : 0)}</span> },
+                      { key: 'activeLoads', label: 'Active Loads', render: (row) => <span>{Array.isArray(row.activeLoads) ? row.activeLoads.length : (row.activeLoads !== undefined ? row.activeLoads : 0)}</span> },
                       { key: 'revenue', label: 'Monthly Revenue', render: (row) => <span className="font-bold text-emerald-400">{row.revenue !== undefined ? `$${row.revenue.toLocaleString()}` : (row.plan === 'Starter' ? '$199.00' : (row.plan === 'Professional' ? '$499.00' : '$1,299.00'))}</span> },
                       { key: 'lastLogin', label: 'Last Login', render: (row) => <span>{row.lastLogin || 'Today, 03:24 PM'}</span> },
                       { key: 'trialExpiry', label: 'Trial Expiry', render: (row) => <span className="text-slate-500">{row.trialExpiry || (row.plan === 'Starter' ? '07/15/2026' : 'N/A')}</span> },
@@ -3309,10 +3311,10 @@ export default function SuperAdminDashboard({ activeTab = 'overview', setActiveT
                     <div className="bg-white p-3 border border-slate-200/50 rounded-xl space-y-2">
                       <h5 className="font-extrabold text-slate-900">Resource Metrics</h5>
                       <div className="grid grid-cols-2 gap-2 text-slate-500">
-                        <div>Active Users: <span className="text-slate-900 font-semibold font-mono">{selectedCompany.users !== undefined ? selectedCompany.users : 1}</span></div>
-                        <div>Total Drivers: <span className="text-slate-900 font-semibold font-mono">{selectedCompany.drivers || 0}</span></div>
-                        <div>Fleet Vehicles: <span className="text-slate-900 font-semibold font-mono">{selectedCompany.vehicles !== undefined ? selectedCompany.vehicles : 0}</span></div>
-                        <div>Branches count: <span className="text-slate-900 font-semibold font-mono">{selectedCompany.branches !== undefined ? selectedCompany.branches : 1}</span></div>
+                        <div>Active Users: <span className="text-slate-900 font-semibold font-mono">{Array.isArray(selectedCompany.users) ? selectedCompany.users.length : (selectedCompany.users !== undefined ? selectedCompany.users : 1)}</span></div>
+                        <div>Total Drivers: <span className="text-slate-900 font-semibold font-mono">{Array.isArray(selectedCompany.drivers) ? selectedCompany.drivers.length : (selectedCompany.drivers || 0)}</span></div>
+                        <div>Fleet Vehicles: <span className="text-slate-900 font-semibold font-mono">{Array.isArray(selectedCompany.vehicles) ? selectedCompany.vehicles.length : (selectedCompany.vehicles !== undefined ? selectedCompany.vehicles : 0)}</span></div>
+                        <div>Branches count: <span className="text-slate-900 font-semibold font-mono">{Array.isArray(selectedCompany.branches) ? selectedCompany.branches.length : (selectedCompany.branches !== undefined ? selectedCompany.branches : 1)}</span></div>
                       </div>
                     </div>
                   </div>

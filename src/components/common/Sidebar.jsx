@@ -174,33 +174,21 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobile
       
       {/* Top Brand Logo */}
       <div>
-        {user.role === 'Company Admin' || user.role === 'Dispatcher' ? (
-          <div className="flex flex-col items-center justify-center pt-8 pb-6 border-b border-[#1F1F1F]">
-            <div className="text-2xl font-black text-[#FFD400] tracking-wide select-none">
-              Hero
-            </div>
-            <div className="text-[9px] font-black text-[#FFD400]/80 tracking-widest uppercase mt-1 flex items-center gap-1 select-none">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] inline-block animate-pulse"></span>
-              ADMIN PORTAL
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col p-4 border-b border-[#1F1F1F]">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center overflow-hidden">
-                <div className="mr-3 px-2 py-1 bg-black border border-[#1F1F1F] rounded-xl flex-shrink-0 flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-300">
-                  <img src={heroLogo} alt="Hero Logistics Logo" className="h-12 w-auto object-contain" />
-                </div>
+        <div className="flex flex-col p-4 border-b border-[#1F1F1F]">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center overflow-hidden">
+              <div className="mr-3 px-2 py-1 bg-black border border-[#1F1F1F] rounded-xl flex-shrink-0 flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-300">
+                <img src={heroLogo} alt="Hero Logistics Logo" className="h-12 w-auto object-contain" />
               </div>
             </div>
-            {user.role === 'Dispatcher' && (
-              <div className="mt-3 px-3 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl">
-                <span className="block text-[9px] font-black uppercase tracking-widest text-slate-500 leading-none">Terminal</span>
-                <span className="block text-[11px] font-black text-white mt-1 leading-none">Sydney Central Depot</span>
-              </div>
-            )}
           </div>
-        )}
+          {user.role === 'Dispatcher' && (
+            <div className="mt-3 px-3 py-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl">
+              <span className="block text-[9px] font-black uppercase tracking-widest text-slate-500 leading-none">Terminal</span>
+              <span className="block text-[11px] font-black text-white mt-1 leading-none">Sydney Central Depot</span>
+            </div>
+          )}
+        </div>
 
         {/* Sidebar Menu Items */}
         <nav className="p-3.5 space-y-1 flex-grow overflow-y-auto max-h-[calc(100vh-150px)] scrollbar-none">
@@ -214,6 +202,7 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobile
               return (
                 <div key={item.id} className="space-y-1">
                   <button
+                    type="button"
                     onClick={() => setIsOpen(!isOpen)}
                     className="w-full flex items-center justify-between p-2.5 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 cursor-pointer transition-all"
                   >
@@ -232,6 +221,7 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobile
                         const isChildActive = activeTab === child.id;
                         return (
                           <button
+                            type="button"
                             key={child.id}
                             onClick={() => {
                               setActiveTab(child.id);
@@ -257,6 +247,7 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobile
             
             return (
               <button
+                type="button"
                 key={item.id}
                 onClick={() => {
                   setActiveTab(item.id);
@@ -279,16 +270,6 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobile
 
       {/* Bottom Profile Details or Sign Out */}
       <div className="border-t border-[#1F1F1F] p-3.5 bg-[#0A0A0A] flex flex-col gap-2">
-        {user.role === 'Dispatcher' || user.role === 'Company Admin' ? (
-          <button
-            onClick={logout}
-            className="w-full flex items-center p-2.5 rounded-xl text-xs font-black text-red-500 hover:bg-red-500/10 cursor-pointer transition-all uppercase tracking-wider gap-2 text-left"
-            title="Sign Out"
-          >
-            <span className="text-base leading-none">←</span>
-            {!collapsed && <span>SIGN OUT</span>}
-          </button>
-        ) : (
           <div className="flex items-center justify-between">
             <div className="flex items-center overflow-hidden gap-3">
               <div className="w-9 h-9 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/25 flex items-center justify-center font-bold text-sm text-[#FFD400] flex-shrink-0">
@@ -316,7 +297,6 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen, setMobile
               </button>
             )}
           </div>
-        )}
       </div>
 
     </aside>
